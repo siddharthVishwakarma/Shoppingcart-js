@@ -60,6 +60,7 @@ let genreateShop = () => {
 
 genreateShop();
 
+// To incriment the card count
 let increment = (id) => {
   let selectedItem = id;
   let search = basket.find((x) => x.id === selectedItem);
@@ -78,6 +79,7 @@ let increment = (id) => {
   update(selectedItem);
 };
 
+// To decriment the card count
 let decriment = (id) => {
   let selectedItem = id;
   let search = basket.find((x) => x.id === selectedItem);
@@ -93,12 +95,16 @@ let decriment = (id) => {
 // Update the quantity of item inthe card
 let update = (id) => {
   let search = basket.find((x) => x.id === id);
-  console.log(search.item);
+  //   console.log(search.item);
   document.getElementById(id).innerHTML = search.item;
   calculate();
 };
 
 // To calculate the count on the the shopping cart icon
 let calculate = () => {
-  console.log("working");
+  const cartIcon = document.getElementById("cartAmount");
+
+  // selecting only items from the basket then add it
+  let total = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
+  cartIcon.innerHTML = total;
 };
