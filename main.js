@@ -88,7 +88,8 @@ let decriment = (id) => {
   let selectedItem = id;
   let search = basket.find((x) => x.id === selectedItem);
 
-  if (search.item === 0) return; // If their is 0 item in basket then stop
+  if (search === undefined) return; //resolved the Uncaught TypeError
+  else if (search.item === 0) return; // If their is 0 item in basket then stop
   else {
     search.item -= 1; //else remove item one by one
   }
