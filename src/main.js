@@ -58,7 +58,7 @@ let genreateShop = () => {
       </div>
     `;
     })
-    .join("")); //To remove the commma while joining shop item data
+    .join("")); //! To remove the commma while joining shop item data
 };
 
 genreateShop();
@@ -88,14 +88,19 @@ let decriment = (id) => {
   let selectedItem = id;
   let search = basket.find((x) => x.id === selectedItem);
 
-  if (search === undefined) return; //resolved the Uncaught TypeError
-  else if (search.item === 0) return; // If their is 0 item in basket then stop
+  // If item is undifined then stop the process
+  if (search === undefined) return; //! resolved the Uncaught TypeError
+  // If basket item is 0 then stop the process
+  else if (search.item === 0) return;
   else {
     search.item -= 1; //else remove item one by one
   }
-  localStorage.setItem("data", JSON.stringify(basket)); //adding local storage to save decriment data
-  //   console.log(basket);
+
   update(selectedItem);
+  // After updating the data in basket remove the item from the array which have 0 quantity
+  basket = basket.filter((x) => x.item !== 0);
+
+  localStorage.setItem("data", JSON.stringify(basket)); //adding local storage to save decriment data
 };
 
 // Update the quantity of item in the card
