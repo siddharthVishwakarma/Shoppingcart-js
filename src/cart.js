@@ -30,7 +30,7 @@ let genrateCartItem = () => {
                             <p>${search.name}</p>
                             <p class="cart-item-pice">$${search.price}</p>
                         </h4>
-                        <i class="bi bi-x-square"></i>
+                        <i onclick="removeItem(${id})" class="bi bi-x-square"></i>
                     </div>
                     <div class="buttons">
                         <i onclick="decriment(${id})" class="bi bi-dash-square"></i>
@@ -102,4 +102,40 @@ let update = (id) => {
   //   console.log(search.item);
   document.getElementById(id).innerHTML = search.item;
   calculate();
+  totalAmmount(); //for updating total bill
 };
+
+let removeItem = (id) => {
+  let selectedItem = id;
+  console.log(selectedItem);
+  basket = basket.filter((x) => x.id !== selectedItem);
+  genrateCartItem();
+  totalAmmount();
+  localStorage.setItem("data", JSON.stringify(basket));
+};
+
+let clearCart = () => {
+  basket = [];
+  genrateCartItem();
+  localStorage.setItem("data", JSON.stringify(basket));
+};
+
+let totalAmmount = () => {
+  if (basket.length !== 0) {
+    let ammount = basket
+      .map((x) => {
+        let { item, id } = x;
+        let search = shopItemData.find((y) => y.id === id) || [];
+        return item * search.price;
+      })
+      .reduce((x, y) => x + y, 0);
+    // console.log(ammount);
+    label.innerHTML = `
+      <h2>Total Bill: $ ${ammount}</h2>
+      <button class="checkout">Checkout</button>
+      <button onclick=clearCart() class="removeAll">Clear Cart</button>
+    `;
+  } else return;
+};
+
+totalAmmount();
